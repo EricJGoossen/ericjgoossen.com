@@ -1,0 +1,70 @@
+---
+layout: base.njk
+permalink: /
+---
+{#- Each section only renders when its data file has something in it. -#}
+<section class="intro">
+  {% if site.photo %}<img src="{{ site.photo }}" alt="Photo of {{ site.name }}">{% endif %}
+  <div class="intro-text">
+    <h1>{{ site.name }}</h1>
+    <p class="headline">{{ site.headline }}</p>
+    {% for para in site.bio %}<p>{{ para }}</p>{% endfor %}
+    <p class="bracket-links">
+      {% for link in site.links | readyLinks %}<a href="{{ link.url }}">{{ link.label }}</a>{% endfor %}
+    </p>
+  </div>
+</section>
+
+{% if collections.skillPages.length %}
+<section id="skills">
+  <h2>Skills</h2>
+  <nav class="chips" aria-label="Skills">
+    {% for skill in collections.skillPages %}<a class="chip" href="/skills/{{ skill.slug }}/">{{ skill.name }} <span class="chip-count">{{ skill.uses.length }}</span></a>{% endfor %}
+  </nav>
+</section>
+{% endif %}
+
+{% if collections.projects.length %}
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="tiles">
+    {% for project in collections.projects %}
+    <a class="tile" href="{{ project.url }}">
+      <div class="tile-media">
+        {% if project.data.cover %}
+        {% tileMedia project.data.cover | mediaUrl(project.url), { poster: (project.data.coverPoster | mediaUrl(project.url)) if project.data.coverPoster, title: project.data.title } %}
+        {% else %}
+        {#- Until there's a cover image, show the title so the tile is identifiable -#}
+        <div class="ph" aria-hidden="true"><span>{{ project.data.title }}</span></div>
+        {% endif %}
+      </div>
+      <div class="tile-text">
+        <h3>{{ project.data.title }}</h3>
+        {% if project.data.org %}<p class="tile-org">{{ project.data.org }}</p>{% endif %}
+        <p class="tile-summary">{{ project.data.summary }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if resume.pdf and (resume.pdf | fileReady) %}
+<section id="resume">
+  <div class="section-head">
+    <h2>Resume</h2>
+    <a class="button" href="{{ resume.pdf }}" download="{{ site.name }} Resume.pdf">Download PDF</a>
+  </div>
+  {% if resume.preview %}
+  <a class="resume-page" href="{{ resume.pdf }}"><img src="{{ resume.preview }}" alt="{{ site.name }}'s resume (PDF)" width="1360" height="1760" loading="lazy"></a>
+  {% endif %}
+</section>
+{% endif %}
+
+{% set pubs = publications | published %}
+{% if pubs.length %}
+<section id="publications">
+  <h2>Publications</h2>
+  {% for pub in pubs %}{% include "pub.njk" %}{% endfor %}
+</section>
+{% endif %}

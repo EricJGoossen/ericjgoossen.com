@@ -1,0 +1,18 @@
+[
+  {"name": "C++", "best": "achilles/simd"},
+  {"name": "Kinematics & Dynamics", "best": "achilles/dynamics"},
+  {"name": "MuJoCo", "best": "achilles/mujoco-comparison"},
+  {"name": "ROS 2", "best": "opendubs/lidar"},
+  {"name": "State estimation", "best": "opendubs/optical-flow"},
+  {"name": "Motion planning", "best": "opendubs/arm-group"},
+  {"name": "Impedance control", "best": "opendubs/impedance-control"},
+  {"name": "Teleoperation", "best": "opendubs/teleop"},
+  {"name": "Docker", "best": "opendubs/bringup"},
+  {"name": "VLA benchmarking", "best": "hil-cap/experiment-design"},
+  {"name": "Experiment design", "best": "hil-cap/experiment-design"},
+  {"name": "Python", "best": "hil-cap/harness"},
+  {"name": "PyTorch"},
+  {"name": "Reinforcement learning", "best": "fleet-rl/highlight-one"},
+  {"name": "Embedded C"},
+  {"name": "CAD"}
+]

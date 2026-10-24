@@ -1,0 +1,59 @@
+---
+layout: base.njk
+---
+{% set slug = page.fileSlug %}
+<article class="project">
+  <a class="back" href="/#projects">← All projects</a>
+
+  {% if hero %}
+  {#- The intro sits over the hero image or video, which loops in the background
+      (the still image instead, with reduced motion). -#}
+  <header class="project-hero">
+    <div class="hero-bg" aria-hidden="true">{% tileMedia hero, { poster: heroPoster, title: title } %}</div>
+    <div class="hero-content">
+      {% include "project-intro.njk" %}
+    </div>
+  </header>
+  {% else %}
+  <header class="project-header">
+    {% include "project-intro.njk" %}
+  </header>
+  {% endif %}
+
+  {% set projectPubs = [] %}
+  {% for pub in publications | published %}{% if pub.project == slug %}{% set projectPubs = (projectPubs.push(pub), projectPubs) %}{% endif %}{% endfor %}
+  {% if projectPubs.length %}
+  <section class="project-pubs" aria-labelledby="pubs-title">
+    <h2 id="pubs-title">{{ "Publications" if projectPubs.length > 1 else "Publication" }}</h2>
+    {% for pub in projectPubs %}{% include "pub.njk" %}{% endfor %}
+  </section>
+  {% endif %}
+
+  {% set entries = collections.logEntries | entriesFor(slug) %}
+  {% if entries.length %}
+  <section class="log" aria-labelledby="log-title">
+    <h2 id="log-title">Progress log</h2>
+    {% for entry in entries %}
+    {% set tags = entry | entrySkills(collections.projects | projectFor(slug)) %}
+    <article class="entry" id="{{ entry | entryId }}">
+      <time datetime="{{ entry.date.toISOString() }}">{{ entry.date | readableDate }}</time>
+      <h3><a href="#{{ entry | entryId }}">{{ entry.data.title }}</a></h3>
+      {% if tags.length %}
+      <p class="entry-skills"><span class="muted">Skills:</span> {% for skill in tags %}<a class="tag" href="/skills/{{ skill | skillSlug }}/">{{ skill }}</a>{% endfor %}</p>
+      {% endif %}
+      {{ entry.templateContent | safe }}
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {#- Previous and next follow the home page order; "All projects" is at the top. -#}
+  {% set prevProject = collections.projects | getPreviousCollectionItem(page) %}
+  {% set nextProject = collections.projects | getNextCollectionItem(page) %}
+  {% if prevProject or nextProject %}
+  <nav class="project-nav" aria-label="More projects">
+    {% if prevProject %}<a class="prev" href="{{ prevProject.url }}">← Previous: {{ prevProject.data.title }}</a>{% endif %}
+    {% if nextProject %}<a class="next" href="{{ nextProject.url }}">Next: {{ nextProject.data.title }} →</a>{% endif %}
+  </nav>
+  {% endif %}
+</article>

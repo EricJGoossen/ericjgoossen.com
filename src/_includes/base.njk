@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% set pageTitle = (title + " · " + site.name) if title else site.name %}
+  {% set pageDescription = summary or site.description %}
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDescription }}">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDescription }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  {#- Link preview image: a project's cover (or its poster, if the cover is a video), else site.json's -#}
+  {% set ogStill = coverPoster if (cover | isVideo) else cover %}
+  {% set ogImage = (ogStill | mediaUrl(page.url)) if ogStill else site.ogImage %}
+  {% if ogImage %}
+  <meta property="og:image" content="{{ site.url }}{{ ogImage }}">
+  <meta name="twitter:card" content="summary_large_image">
+  {% endif %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  {% checkBanner %}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-name" href="/">{{ site.name }}</a>
+      <nav aria-label="Main">
+        {#- Same order and conditions as the sections in index.njk -#}
+        {% if collections.skillPages.length %}<a href="/#skills">Skills</a>{% endif %}
+        {% if collections.projects.length %}<a href="/#projects">Projects</a>{% endif %}
+        {% if resume.pdf and (resume.pdf | fileReady) %}<a href="/#resume">Resume</a>{% endif %}
+        {% if (publications | published).length %}<a href="/#publications">Publications</a>{% endif %}
+        <a href="/search/">Search</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main" tabindex="-1">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© {{ site.name }}</span>
+      <span class="bracket-links">
+        {% for link in site.links | readyLinks %}<a href="{{ link.url }}">{{ link.label }}</a>{% endfor %}
+      </span>
+    </div>
+  </footer>
+
+  {% if scripts %}{% for s in scripts %}<script src="{{ s }}" defer></script>{% endfor %}{% endif %}
+</body>
+</html>

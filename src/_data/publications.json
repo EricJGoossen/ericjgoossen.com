@@ -1,0 +1,33 @@
+[
+  {
+    "title": "A Few Words Go a Long Way: Language Guided Robot Policy Synthesis",
+    "authors": [
+      "D. Chen",
+      "A. R. Jain",
+      "E. Goossen",
+      "E. Romig",
+      "M. Murray",
+      "N. Walker",
+      "M. Cakmak"
+    ],
+    "venue": "",
+    "year": 2026,
+    "status": "In preparation for IEEE RA-L",
+    "award": "",
+    "lab": "Human Centered Robotics Lab",
+    "project": "hil-cap",
+    "image": "/assets/pubs/architect-teaser.jpg",
+    "imageAlt": "A Franka Panda arm grasping a green cup, about to place it upright on a small white table",
+    "tldr": "Tests whether human feedback helps LLM-written robot code beat vision-language-action models: human feedback lifts Code-as-Policies 1.75× over base VLAs, solving tasks VLAs failed completely.",
+    "links": [
+      {
+        "label": "arXiv",
+        "url": "https://arxiv.org/abs/2607.23784"
+      },
+      {
+        "label": "Website",
+        "url": "https://robo-architect.github.io/"
+      }
+    ]
+  }
+]
